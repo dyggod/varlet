@@ -54,7 +54,11 @@ Create an easier container using elevation and water effects
 
 | Prop | Description | Type | Default |
 | --- | --- | --- | --- |
+<<<<<<< HEAD
 | `elevation` | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `true`    |
+=======
+| `elevation` | Elevation level, options `true` `false` and level of `0-24` | _string \| number \| boolean_|   `false`    |
+>>>>>>> up/dev
 | `ripple` | Whether to enable ripple effect | _boolean_ | `-` |
 | `radius` | Paper border radius | _string \| number_ | `-` |
 | `width` | Paper width | _string \| number_ | `-` |

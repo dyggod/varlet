@@ -2,7 +2,7 @@
   <div :class="classes(n(), n('$--box'))">
     <div :class="n('file-list')">
       <div
-        :class="classes(n('file'), n('$-elevation--2'), [f.state === 'loading', n('--loading')])"
+        :class="classes(n('file'), formatElevation(elevation, 2), [f.state === 'loading', n('--loading')])"
         :key="f.id"
         v-for="f in files"
         v-ripple="{ disabled: disabled || formDisabled || readonly || formReadonly || !ripple }"
@@ -23,7 +23,7 @@
       <div
         :class="
           classes(
-            [!$slots.default, `${n('action')} ${n('$-elevation--2')}`],
+            [!$slots.default, `${n('action')} ${formatElevation(elevation, 2)}`],
             [disabled || formDisabled, n('--disabled')]
           )
         "
@@ -84,9 +84,9 @@ import Ripple from '../ripple'
 import Hover from '../hover'
 import { defineComponent, nextTick, reactive, computed, watch, ref, type ComputedRef, type Ref } from 'vue'
 import { props, type VarFile, type ValidateTrigger } from './props'
-import { isNumber, toNumber, isString, isArray } from '@varlet/shared'
+import { isNumber, toNumber, isString, normalizeToArray } from '@varlet/shared'
 import { isHTMLSupportImage, isHTMLSupportVideo } from '../utils/shared'
-import { call, useValidation, createNamespace } from '../utils/components'
+import { call, useValidation, createNamespace, formatElevation } from '../utils/components'
 import { useForm } from '../form/provide'
 import { type UploaderProvider } from './provide'
 
@@ -216,11 +216,10 @@ export default defineComponent({
             })
           }
 
-          let results = call(onBeforeRead, reactive(varFile))
-          results = isArray(results) ? results : [results]
+          const results = normalizeToArray(call(onBeforeRead, reactive(varFile)))
           Promise.all(results).then((values) => {
             resolve({
-              valid: !values.some((value) => !value),
+              valid: values.every(Boolean),
               varFile,
             })
           })
@@ -275,9 +274,7 @@ export default defineComponent({
       }
 
       if (onBeforeRemove) {
-        let results = call(onBeforeRemove, reactive(removedVarFile))
-        results = isArray(results) ? results : [results]
-
+        const results = normalizeToArray(call(onBeforeRemove, reactive(removedVarFile)))
         if ((await Promise.all(results)).some((result) => !result)) {
           return
         }
@@ -355,6 +352,7 @@ export default defineComponent({
     return {
       n,
       classes,
+      formatElevation,
       input,
       files,
       showPreview,

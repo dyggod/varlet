@@ -33,6 +33,7 @@ export interface UploaderProps extends BasicAttributes {
   multiple?: boolean
   readonly?: boolean
   disabled?: boolean
+  elevation?: boolean | string | number
   removable?: boolean
   maxlength?: string | number
   maxsize?: string | number
@@ -41,7 +42,7 @@ export interface UploaderProps extends BasicAttributes {
   ripple?: boolean
   validateTrigger?: Array<UploaderValidateTrigger>
   rules?: Array<(v: VarFile[], u: UploaderVarFileUtils) => any>
-  onBeforeRead?: ListenerProp<(file: VarFile) => Promise<boolean> | boolean>
+  onBeforeRead?: ListenerProp<(file: VarFile) => Promise<any> | any>
   onAfterRead?: ListenerProp<(file: VarFile) => any>
   onOversize?: ListenerProp<(file: VarFile) => any>
   onBeforeRemove?: ListenerProp<(file: VarFile) => any>

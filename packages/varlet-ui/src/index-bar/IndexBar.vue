@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch, onBeforeUnmount, onDeactivated } from 'vue'
+import { computed, defineComponent, ref, watch, onBeforeUnmount, onDeactivated, onActivated } from 'vue'
 import { isPlainObject, toNumber } from '@varlet/shared'
 import { easeInOutCubic } from '../utils/shared'
 import {
@@ -49,11 +49,12 @@ export default defineComponent({
     const anchorNameList: Ref<Array<number | string>> = ref([])
     const active: Ref<number | string | undefined> = ref()
     const sticky: ComputedRef<boolean> = computed(() => props.sticky)
-    const cssMode: ComputedRef<boolean> = computed(() => props.cssMode)
+    const cssMode: ComputedRef<boolean> = computed(() => props.stickyCssMode || props.cssMode)
     const stickyOffsetTop: ComputedRef<number> = computed(() => toPxNum(props.stickyOffsetTop))
     const zIndex: ComputedRef<number | string> = computed(() => props.zIndex)
 
     let scroller: HTMLElement | Window | null = null
+    let isDeactivated = false
 
     const indexBarProvider: IndexBarProvider = {
       active,
@@ -98,11 +99,9 @@ export default defineComponent({
         const distance =
           index === indexAnchors.length - 1 ? scrollHeight : indexAnchors[index + 1].ownTop.value - anchor.ownTop.value
 
-        if (top >= 0 && top < distance && clickedName.value === '') {
-          if (index && !props.cssMode) {
-            indexAnchors[index - 1].setDisabled(true)
-          }
+        anchor.setDisabled(true)
 
+        if (top >= 0 && top < distance && clickedName.value === '') {
           anchor.setDisabled(false)
           emitEvent(anchor)
         }
@@ -114,7 +113,7 @@ export default defineComponent({
         call(props.onClick, anchorName)
       }
 
-      if (anchorName === active.value) {
+      if (anchorName === active.value && !isDeactivated) {
         return
       }
 
@@ -177,7 +176,21 @@ export default defineComponent({
     })
 
     onBeforeUnmount(removeScrollerListener)
-    onDeactivated(removeScrollerListener)
+
+    onDeactivated(() => {
+      isDeactivated = true
+      removeScrollerListener()
+    })
+
+    onActivated(() => {
+      if (!isDeactivated || active.value === undefined) return
+
+      anchorClick({
+        anchorName: active.value,
+        options: { event: false },
+      })
+      isDeactivated = false
+    })
 
     return {
       n,
