@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, watch, onBeforeUnmount, onDeactivated, onActivated } from 'vue'
-import { isPlainObject, toNumber } from '@varlet/shared'
+import { isPlainObject, isWindow, toNumber } from '@varlet/shared'
 import { easeInOutCubic } from '../utils/shared'
 import {
   doubleRaf,
@@ -28,6 +28,7 @@ import {
   requestAnimationFrame,
   scrollTo as varScrollTo,
   toPxNum,
+  getRect,
 } from '../utils/elements'
 import { useIndexAnchors } from './provide'
 import { props, type IndexBarScrollToOptions, type ClickOptions } from './props'
@@ -77,13 +78,11 @@ export default defineComponent({
     }
 
     const getOffsetTop = () => {
-      if (!('getBoundingClientRect' in scroller!)) {
-        return 0
-      }
+      if (isWindow(scroller)) return 0
 
-      const { top: parentTop } = scroller.getBoundingClientRect()
-      const { scrollTop } = scroller
-      const { top: targetTop } = barEl.value!.getBoundingClientRect()
+      const { top: parentTop } = getRect(scroller!)
+      const { scrollTop } = scroller!
+      const { top: targetTop } = getRect(barEl.value!)
 
       return scrollTop - parentTop + targetTop
     }

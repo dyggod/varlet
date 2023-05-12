@@ -14,6 +14,7 @@ export interface VarFile {
   cover?: string
   fit?: VarFileFit
   state?: VarFileState
+  progress?: number
 }
 
 export type UploaderValidateTrigger = 'onChange' | 'onRemove'
@@ -42,6 +43,7 @@ export interface UploaderProps extends BasicAttributes {
   ripple?: boolean
   validateTrigger?: Array<UploaderValidateTrigger>
   rules?: Array<(v: VarFile[], u: UploaderVarFileUtils) => any>
+  onBeforeFilter?: ListenerProp<(files: VarFile[]) => Promise<VarFile[]> | VarFile[]>
   onBeforeRead?: ListenerProp<(file: VarFile) => Promise<any> | any>
   onAfterRead?: ListenerProp<(file: VarFile) => any>
   onOversize?: ListenerProp<(file: VarFile) => any>

@@ -68,6 +68,7 @@ export default defineComponent({
     const lockDuration: Ref<boolean> = ref(false)
     const index: Ref<number> = ref(0)
     const { swipeItems, bindSwipeItems, length } = useSwipeItems()
+    let initializedIndex = false
     let touching = false
     let timer = -1
     let startX: number
@@ -165,7 +166,12 @@ export default defineComponent({
     }
 
     const initialIndex = () => {
+      if (initializedIndex) {
+        return
+      }
+
       index.value = boundaryIndex(toNumber(props.initialIndex))
+      initializedIndex = true
     }
 
     const startAutoplay = () => {
@@ -297,8 +303,9 @@ export default defineComponent({
         return
       }
 
-      const { loop, onChange } = props
+      initialIndex()
 
+      const { loop, onChange } = props
       const currentIndex = index.value
       index.value = boundaryIndex(currentIndex + 1)
 
@@ -324,8 +331,9 @@ export default defineComponent({
         return
       }
 
-      const { loop, onChange } = props
+      initialIndex()
 
+      const { loop, onChange } = props
       const currentIndex = index.value
       index.value = boundaryIndex(currentIndex - 1)
 
@@ -374,6 +382,7 @@ export default defineComponent({
       async () => {
         // In nuxt, the size of the swipe cannot got when the route is change, need double raf
         await doubleRaf()
+
         initialIndex()
         resize()
       }

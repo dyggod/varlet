@@ -1,3 +1,61 @@
+## [2.10.2](https://github.com/varletjs/varlet/compare/v2.10.1...v2.10.2) (2023-05-06)
+
+
+### Bug Fixes
+
+* **ui/slider:** 修复滑块拖动时屏幕滚动 ([#1011](https://github.com/varletjs/varlet/issues/1011)) ([b9ca512](https://github.com/varletjs/varlet/commit/b9ca5122d1edf94fdf5ddb0ec6344241723b3c55))
+
+
+### Features
+
+* **ui/input:** support enterkeyhint for Input ([#1013](https://github.com/varletjs/varlet/issues/1013)) ([706014c](https://github.com/varletjs/varlet/commit/706014c264ca14ad36988d5ca9430b12509f5e29))
+* **ui/popup:** support safeArea and safeAreaTop ([7306ddc](https://github.com/varletjs/varlet/commit/7306ddc1cf88bf16dc50840966f460502a2def91))
+
+
+
+## [2.10.1](https://github.com/varletjs/varlet/compare/v2.10.0...v2.10.1) (2023-05-04)
+
+
+### Bug Fixes
+
+* **cli/compile:** support typescript and close [#998](https://github.com/varletjs/varlet/issues/998) ([0b83869](https://github.com/varletjs/varlet/commit/0b8386924c157aef1f8c093e2fa11d4c85cbb1da))
+* **select:** fix select dropdown border radius ([22d656e](https://github.com/varletjs/varlet/commit/22d656e713a21661fc3aca33fc8231f328c97521))
+* **ui/input, select:** fix text overflow error ([929765a](https://github.com/varletjs/varlet/commit/929765a94c6b86d1d28d9b86a3899cd31113c57b))
+* **ui/slider:** optimize slider style and classes ([#1000](https://github.com/varletjs/varlet/issues/1000)) ([7695457](https://github.com/varletjs/varlet/commit/7695457def220ff979225e6211b4841da17a88dd))
+* **ui/swipe:** to and next methods conflict with initialIndex ([140af1f](https://github.com/varletjs/varlet/commit/140af1fd84dc748fbf67e0b8928d7ccf9e95bd47))
+
+
+### Features
+
+* **cli:** support meta description and keywords ([d0ce672](https://github.com/varletjs/varlet/commit/d0ce67249903fb5223521c86a4fc9be761b246ef))
+* **slider:** support vertical mode ([43acba6](https://github.com/varletjs/varlet/commit/43acba6981663ce54f2b4201d82d90328f717bf8))
+* **ui/uploader:** support progress ([b991f6f](https://github.com/varletjs/varlet/commit/b991f6f0329c12cc21042174f275e6ac5396b674))
+
+
+
+# [2.10.0](https://github.com/varletjs/varlet/compare/v2.9.6...v2.10.0) (2023-04-24)
+
+
+### Bug Fixes
+
+* **extension:** newline not parsed ([28ad42c](https://github.com/varletjs/varlet/commit/28ad42c7147c1e14de27f5d9e23cfd259e06ef01))
+* **input:** placeholder style ([4a00a63](https://github.com/varletjs/varlet/commit/4a00a6352c494c59ebd73b3303c1b4e1fed61178))
+* **input:** remove transition delay ([2528f60](https://github.com/varletjs/varlet/commit/2528f60a25743935bffbc0f3a853c88ae9d62d37))
+* **ui/list:** clear list scroller listener on deactivated ([3640121](https://github.com/varletjs/varlet/commit/364012188a37abff256a24dadefff02e4f0f2181))
+* **ui/pagination:** fix error key ([cf7793a](https://github.com/varletjs/varlet/commit/cf7793aedbaf5564d737419b7721aeeded99e974))
+
+
+### Features
+
+* **icon:** add view icons ([cebb99d](https://github.com/varletjs/varlet/commit/cebb99d8f0f9245de17319605085101637a54234))
+* **markdown:** add id attribute for h3 tag & close [#976](https://github.com/varletjs/varlet/issues/976) ([#983](https://github.com/varletjs/varlet/issues/983)) ([78c1b1d](https://github.com/varletjs/varlet/commit/78c1b1d7a9ccee7de9e16ae0495102043341210b))
+* new icons and refactor rate component docs ([#990](https://github.com/varletjs/varlet/issues/990)) ([62787c7](https://github.com/varletjs/varlet/commit/62787c7e08bb288daba7aede615e46a5fddf14f2))
+* **ui/input, select:** new outlined variant ([#941](https://github.com/varletjs/varlet/issues/941)) ([c054e21](https://github.com/varletjs/varlet/commit/c054e2111e1f6ff1749ddca7b18282d0ba7d06e6))
+* **ui/Snackbar:** support icon and action in functional mode ([1f35aeb](https://github.com/varletjs/varlet/commit/1f35aeb7c08f2f57278eec431c86280491c14d47))
+* **vscode-extension:** add `varlet documentation` and  `varlet playground`  btns ([#962](https://github.com/varletjs/varlet/issues/962)) ([d36e532](https://github.com/varletjs/varlet/commit/d36e532e919a34a587e80f447b07abdf536eb756))
+
+
+
 ## [2.9.6](https://github.com/varletjs/varlet/compare/v2.9.5...v2.9.6) (2023-04-14)
 
 

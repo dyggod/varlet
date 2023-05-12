@@ -87,6 +87,39 @@ function handleAfterRead(file) {
 </template>
 ```
 
+### Use Progress
+
+```html
+<script setup>
+import { ref, onUnmounted } from 'vue'
+
+const files = ref([])
+let timer
+
+function handleAfterRead(file) {
+  file.state = 'loading'
+
+  timer = window.setInterval(() => {
+    if (file.progress === 100) {
+      window.clearInterval(timer)
+      file.state = 'success'
+      return
+    }
+
+    file.progress += 10
+  }, 250)
+}
+
+onUnmounted(() => {
+  window.clearInterval(timer)
+})
+</script>
+
+<template>
+  <var-uploader v-model="files" @after-read="handleAfterRead"/>
+</template>
+```
+
 ### File Maxlength
 
 ```html
@@ -116,6 +149,27 @@ const files = ref([])
 <template>
   <var-uploader v-model="files" :maxsize="1024" @oversize="Snackbar.warning('file size exceeds limit')" />
 </template>
+```
+
+### File List Filter
+
+Filter files through the `before-filter` event, and return a `VarFile` array after filtering.
+
+```html
+<script setup>
+import { ref } from 'vue'
+
+const files = ref([])
+
+function handleBeforeFilter(files) {
+  return files.filter(file => file.name.endsWith('png'))
+}
+</script>
+
+<template>
+  <var-uploader v-model="files" multiple @before-filter="handleBeforeFilter" />
+</template>
+
 ```
 
 ### Upload Preprocessing
@@ -301,6 +355,7 @@ const files = ref([
 </style>
 ```
 
+
 ## API
 
 ### Props
@@ -333,6 +388,7 @@ const files = ref([
 | `cover` | File cover image | _string_ | `-` |
 | `fit` | Cover image fill mode, Optional value is `fill` `contain` `cover` `none` `scale-down` | _string_ | `-` |
 | `state` | File upload state, Optional value is `loading` `success` `error` | _string_ | `-` |
+| `state` | File upload progress, range [0, 100] | _number_ | `-` |
 
 ### VarFileUtils
 
@@ -359,6 +415,7 @@ const files = ref([
 
 | Event | Description | Arguments |
 | --- | --- | --- |
+| `before-filter` | Triggered before the event `before-read` to filter the file list | `files: VarFile[]` |
 | `before-read` | Trigger returns a false value before a file is read to prevent the file from being read(support promise) | `file: VarFile` |
 | `after-read` | Triggered after the file is read | `file: VarFile` |
 | `oversize` | Triggered when the file size limit is exceeded | `file: VarFile` |
@@ -400,6 +457,7 @@ Here are the CSS variables used by the component, Styles can be customized using
 | `--uploader-file-indicator-normal-color`  | `var(--color-disabled)`                                                                      |
 | `--uploader-file-indicator-success-color` | `var(--color-success)`                                                                       |
 | `--uploader-file-indicator-error-color`   | `var(--color-danger)`                                                                        |
+| `--uploader-file-progress-color`   | `var(--color-primary)`                                                                        |
 | `--uploader-disabled-color`               | `#ddd`              |
 | `--uploader-disabled-text-color`          | `var(--color-text-disabled)`      |
 | `--uploader-loading-background`           | `linear-gradient(90deg, hsla(0, 0%, 100%, 0), hsla(0, 0%, 100%, 0.3), hsla(0, 0%, 100%, 0))` |

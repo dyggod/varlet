@@ -17,7 +17,6 @@
         formDisabled,
         disabled,
         clearable,
-        textarea,
         cursor,
         composing: isComposing,
         alwaysCustomPlaceholder: false,
@@ -32,10 +31,11 @@
       <input
         :class="n('autocomplete')"
         :placeholder="!hint ? placeholder : undefined"
-        v-if="type === 'password'"
+        v-if="normalizedType === 'password'"
         :style="{
           '--input-placeholder-color': placeholderColor,
         }"
+        :enterkeyhint="enterkeyhint"
       />
       <textarea
         :class="
@@ -51,11 +51,13 @@
         autocomplete="new-password"
         :id="id"
         :disabled="formDisabled || disabled || formReadonly || readonly"
-        :type="type"
+        :type="normalizedType"
         :value="modelValue"
         :placeholder="!hint ? placeholder : undefined"
         :maxlength="maxlength"
         :rows="rows"
+        :enterkeyhint="enterkeyhint"
+        :inputmode="type === 'number' ? 'numeric' : undefined"
         :style="{
           color: !errorMessage ? textColor : undefined,
           caretColor: !errorMessage ? focusColor : undefined,
@@ -85,10 +87,12 @@
         autocomplete="new-password"
         :id="id"
         :disabled="formDisabled || disabled || formReadonly || readonly"
-        :type="type"
+        :type="normalizedType"
         :value="modelValue"
         :placeholder="!hint ? placeholder : undefined"
         :maxlength="maxlength"
+        :enterkeyhint="enterkeyhint"
+        :inputmode="type === 'number' ? 'numeric' : undefined"
         :style="{
           color: !errorMessage ? textColor : undefined,
           caretColor: !errorMessage ? focusColor : undefined,
@@ -138,7 +142,7 @@ export default defineComponent({
     const el: Ref<HTMLInputElement | null> = ref(null)
     const isFocus: Ref<boolean> = ref(false)
     const isComposing: Ref<boolean> = ref(false)
-    const type: ComputedRef<InputType> = computed(() => {
+    const normalizedType: ComputedRef<InputType> = computed(() => {
       if (props.type === 'number') {
         return 'text'
       }
@@ -354,7 +358,7 @@ export default defineComponent({
       isComposing,
       errorMessage,
       placeholderColor,
-      type,
+      normalizedType,
       cursor,
       maxlengthText,
       formDisabled: form?.disabled,
@@ -384,8 +388,8 @@ export default defineComponent({
 
 <style lang="less">
 @import '../styles/common';
-@import '../form-details/formDetails';
 @import '../icon/icon';
 @import '../field-decorator/fieldDecorator';
+@import '../form-details/formDetails';
 @import './input';
 </style>

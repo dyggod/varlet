@@ -28,9 +28,7 @@ test('test input variant', () => {
       }
 
       case 'outlined': {
-        expect(
-          wrapper.find('.var-field-decorator__line').wrapperElement.querySelector('.var-field-decorator__line-start')
-        ).toBeTruthy()
+        expect(wrapper.find('.var-field-decorator__line').wrapperElement.querySelector('legend')).toBeTruthy()
         break
       }
 
@@ -53,6 +51,40 @@ test('test input size', () => {
 
   expect(wrapper.find('.var-field-decorator--small')).toBeTruthy()
   expect(wrapper.html()).toMatchSnapshot()
+})
+
+test('test input type', () => {
+  ;['text', 'password', 'number', 'tel', 'email'].forEach((type) => {
+    const wrapper = mount(VarInput, {
+      props: {
+        modelValue: 'text',
+        type,
+      },
+    })
+
+    switch (type) {
+      case 'number': {
+        expect(wrapper.find('input').attributes('type')).toBe('text')
+        expect(wrapper.find('input').attributes('inputmode')).toBe('numeric')
+        break
+      }
+
+      case 'password': {
+        expect(wrapper.find('input').attributes('type')).toBeUndefined()
+        expect(wrapper.find('input').attributes('inputmode')).toBeUndefined()
+        break
+      }
+
+      default: {
+        expect(wrapper.find('input').attributes('type')).toBe(type)
+        expect(wrapper.find('input').attributes('inputmode')).toBeUndefined()
+        break
+      }
+    }
+
+    expect(wrapper.html()).toMatchSnapshot()
+    wrapper.unmount()
+  })
 })
 
 describe('test input events', () => {
